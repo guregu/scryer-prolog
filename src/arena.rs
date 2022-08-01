@@ -162,7 +162,7 @@ pub struct ArenaHeader {
     tag: ArenaHeaderTag,
 }
 
-const_assert!(mem::size_of::<ArenaHeader>() == 8);
+// const_assert!(mem::size_of::<ArenaHeader>() == 8);
 
 impl ArenaHeader {
     #[inline]
@@ -644,15 +644,15 @@ unsafe fn drop_slab_in_place(value: &mut AllocSlab) {
         ArenaHeaderTag::NamedTcpStream => {
             ptr::drop_in_place(value.payload_offset::<StreamLayout<CharReader<NamedTcpStream>>>());
         }
-        ArenaHeaderTag::NamedTlsStream => {
-            ptr::drop_in_place(value.payload_offset::<StreamLayout<CharReader<NamedTlsStream>>>());
-        }
+        // ArenaHeaderTag::NamedTlsStream => {
+        //     ptr::drop_in_place(value.payload_offset::<StreamLayout<CharReader<NamedTlsStream>>>());
+        // }
         ArenaHeaderTag::NamedHttpClientStream => {
             ptr::drop_in_place(value.payload_offset::<StreamLayout<CharReader<NamedHttpClientStream>>>());
         }
-        ArenaHeaderTag::ReadlineStream => {
-            ptr::drop_in_place(value.payload_offset::<StreamLayout<ReadlineStream>>());
-        }
+        // ArenaHeaderTag::ReadlineStream => {
+        //     ptr::drop_in_place(value.payload_offset::<StreamLayout<ReadlineStream>>());
+        // }
         ArenaHeaderTag::StaticStringStream => {
             ptr::drop_in_place(value.payload_offset::<StreamLayout<StaticStringStream>>());
         }
@@ -708,7 +708,7 @@ impl Drop for Arena {
     }
 }
 
-const_assert!(mem::size_of::<AllocSlab>() == 16);
+// const_assert!(mem::size_of::<AllocSlab>() == 16);
 
 impl AllocSlab {
     #[inline]
@@ -723,7 +723,7 @@ impl AllocSlab {
     }
 }
 
-const_assert!(mem::size_of::<OrderedFloat<f64>>() == 8);
+// const_assert!(mem::size_of::<OrderedFloat<f64>>() == 8);
 
 #[cfg(test)]
 mod tests {

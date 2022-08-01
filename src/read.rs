@@ -10,14 +10,14 @@ use crate::machine::machine_indices::*;
 use crate::machine::machine_state::MachineState;
 use crate::machine::streams::*;
 use crate::parser::char_reader::*;
-use crate::repl_helper::Helper;
+// use crate::repl_helper::Helper;
 use crate::types::*;
 
 use fxhash::FxBuildHasher;
 
 use indexmap::IndexSet;
-use rustyline::error::ReadlineError;
-use rustyline::{Config, Editor};
+// use rustyline::error::ReadlineError;
+// use rustyline::{Config, Editor};
 
 use std::collections::VecDeque;
 use std::io::{Cursor, Error, ErrorKind, Read};
@@ -80,168 +80,168 @@ fn get_prompt() -> &'static str {
     }
 }
 
-#[derive(Debug)]
-pub struct ReadlineStream {
-    rl: Editor<Helper>,
-    pending_input: Cursor<String>,
-    add_history: bool,
-}
+// #[derive(Debug)]
+// pub struct ReadlineStream {
+//     rl: Editor<Helper>,
+//     pending_input: Cursor<String>,
+//     add_history: bool,
+// }
 
-impl ReadlineStream {
-    #[inline]
-    pub fn new(pending_input: &str, add_history: bool) -> Self {
-        let config = Config::builder().check_cursor_position(true).build();
-        let helper = Helper::new();
+// impl ReadlineStream {
+//     #[inline]
+//     pub fn new(pending_input: &str, add_history: bool) -> Self {
+//         let config = Config::builder().check_cursor_position(true).build();
+//         let helper = Helper::new();
 
-        let mut rl = Editor::with_config(config);
-        rl.set_helper(Some(helper));
+//         let mut rl = Editor::with_config(config);
+//         rl.set_helper(Some(helper));
 
-        if let Some(mut path) = dirs_next::home_dir() {
-            path.push(HISTORY_FILE);
-            if path.exists() && rl.load_history(&path).is_err() {
-                println!("Warning: loading history failed");
-            }
-        }
+//         if let Some(mut path) = dirs_next::home_dir() {
+//             path.push(HISTORY_FILE);
+//             if path.exists() && rl.load_history(&path).is_err() {
+//                 println!("Warning: loading history failed");
+//             }
+//         }
 
-        // rl.bind_sequence(KeyEvent::from('\t'), Cmd::Insert(1, "\t".to_string()));
+//         // rl.bind_sequence(KeyEvent::from('\t'), Cmd::Insert(1, "\t".to_string()));
 
-        ReadlineStream {
-            rl,
-            pending_input: Cursor::new(pending_input.to_owned()),
-            add_history: add_history,
-        }
-    }
+//         ReadlineStream {
+//             rl,
+//             pending_input: Cursor::new(pending_input.to_owned()),
+//             add_history: add_history,
+//         }
+//     }
 
-    pub fn set_atoms_for_completion(&mut self, atoms: *const IndexSet<Atom>) {
-        let helper = self.rl.helper_mut().unwrap();
-        helper.atoms = atoms;
-    }
+//     pub fn set_atoms_for_completion(&mut self, atoms: *const IndexSet<Atom>) {
+//         let helper = self.rl.helper_mut().unwrap();
+//         helper.atoms = atoms;
+//     }
 
-    #[inline]
-    pub fn reset(&mut self) {
-        self.pending_input.get_mut().clear();
-        self.pending_input.set_position(0);
-    }
+//     #[inline]
+//     pub fn reset(&mut self) {
+//         self.pending_input.get_mut().clear();
+//         self.pending_input.set_position(0);
+//     }
 
-    fn call_readline(&mut self) -> std::io::Result<usize> {
-        match self.rl.readline(get_prompt()) {
-            Ok(text) => {
-                *self.pending_input.get_mut() = text;
-                self.pending_input.set_position(0);
+//     fn call_readline(&mut self) -> std::io::Result<usize> {
+//         match self.rl.readline(get_prompt()) {
+//             Ok(text) => {
+//                 *self.pending_input.get_mut() = text;
+//                 self.pending_input.set_position(0);
 
-                unsafe {
-                    if PROMPT {
-                        self.rl.history_mut().add(self.pending_input.get_ref());
-                        self.save_history();
-                        PROMPT = false;
-                    }
-                }
+//                 unsafe {
+//                     if PROMPT {
+//                         self.rl.history_mut().add(self.pending_input.get_ref());
+//                         self.save_history();
+//                         PROMPT = false;
+//                     }
+//                 }
 
-                if self.pending_input.get_ref().chars().last() != Some('\n') {
-                    *self.pending_input.get_mut() += "\n";
-                }
+//                 if self.pending_input.get_ref().chars().last() != Some('\n') {
+//                     *self.pending_input.get_mut() += "\n";
+//                 }
 
-                Ok(self.pending_input.get_ref().len())
-            }
-            Err(ReadlineError::Eof) => Ok(0),
-            Err(e) => Err(Error::new(ErrorKind::InvalidInput, e)),
-        }
-    }
+//                 Ok(self.pending_input.get_ref().len())
+//             }
+//             Err(ReadlineError::Eof) => Ok(0),
+//             Err(e) => Err(Error::new(ErrorKind::InvalidInput, e)),
+//         }
+//     }
 
-    fn save_history(&mut self) {
-        if !self.add_history {
-            return;
-        };
-        if let Some(mut path) = dirs_next::home_dir() {
-            path.push(HISTORY_FILE);
-            if path.exists() {
-                if self.rl.append_history(&path).is_err() {
-                    println!("Warning: couldn't append history (existing file)");
-                }
-            } else if self.rl.save_history(&path).is_err() {
-                println!("Warning: couldn't save history (new file)");
-            }
-        }
-    }
+//     fn save_history(&mut self) {
+//         if !self.add_history {
+//             return;
+//         };
+//         if let Some(mut path) = dirs_next::home_dir() {
+//             path.push(HISTORY_FILE);
+//             if path.exists() {
+//                 if self.rl.append_history(&path).is_err() {
+//                     println!("Warning: couldn't append history (existing file)");
+//                 }
+//             } else if self.rl.save_history(&path).is_err() {
+//                 println!("Warning: couldn't save history (new file)");
+//             }
+//         }
+//     }
 
-    pub(crate) fn peek_byte(&mut self) -> std::io::Result<u8> {
-        loop {
-            match self.pending_input.get_ref().bytes().next() {
-                Some(0) => {
-                    return Ok(0);
-                }
-                Some(b) => {
-                    return Ok(b);
-                }
-                None => match self.call_readline() {
-                    Err(e) => {
-                        return Err(e);
-                    }
-                    Ok(0) => {
-                        self.pending_input.get_mut().push('\u{0}');
-                        return Ok(0);
-                    }
-                    _ => {
-                        set_prompt(false);
-                    }
-                },
-            }
-        }
-    }
-}
+//     pub(crate) fn peek_byte(&mut self) -> std::io::Result<u8> {
+//         loop {
+//             match self.pending_input.get_ref().bytes().next() {
+//                 Some(0) => {
+//                     return Ok(0);
+//                 }
+//                 Some(b) => {
+//                     return Ok(b);
+//                 }
+//                 None => match self.call_readline() {
+//                     Err(e) => {
+//                         return Err(e);
+//                     }
+//                     Ok(0) => {
+//                         self.pending_input.get_mut().push('\u{0}');
+//                         return Ok(0);
+//                     }
+//                     _ => {
+//                         set_prompt(false);
+//                     }
+//                 },
+//             }
+//         }
+//     }
+// }
 
-impl Read for ReadlineStream {
-    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
-        match self.pending_input.read(buf) {
-            Ok(0) => {
-                self.call_readline()?;
-                self.pending_input.read(buf)
-            }
-            result => result
-        }
-    }
-}
+// impl Read for ReadlineStream {
+//     fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+//         match self.pending_input.read(buf) {
+//             Ok(0) => {
+//                 self.call_readline()?;
+//                 self.pending_input.read(buf)
+//             }
+//             result => result
+//         }
+//     }
+// }
 
-impl CharRead for ReadlineStream {
-    fn peek_char(&mut self) -> Option<std::io::Result<char>> {
-        loop {
-            let pos = self.pending_input.position() as usize;
+// impl CharRead for ReadlineStream {
+//     fn peek_char(&mut self) -> Option<std::io::Result<char>> {
+//         loop {
+//             let pos = self.pending_input.position() as usize;
 
-            match self.pending_input.get_ref()[pos ..].chars().next() {
-                Some('\u{0}') => {
-                    return Some(Ok('\u{0}'));
-                }
-                Some(c) => {
-                    return Some(Ok(c));
-                }
-                None => {
-                    match self.call_readline() {
-                        Err(e) => {
-                            return Some(Err(e));
-                        }
-                        Ok(0) => {
-                            self.pending_input.get_mut().push('\u{0}');
-                            return Some(Ok('\u{0}'));
-                        }
-                        _ => {
-                            set_prompt(false);
-                        }
-                    }
-                }
-            }
-        }
-    }
+//             match self.pending_input.get_ref()[pos ..].chars().next() {
+//                 Some('\u{0}') => {
+//                     return Some(Ok('\u{0}'));
+//                 }
+//                 Some(c) => {
+//                     return Some(Ok(c));
+//                 }
+//                 None => {
+//                     match self.call_readline() {
+//                         Err(e) => {
+//                             return Some(Err(e));
+//                         }
+//                         Ok(0) => {
+//                             self.pending_input.get_mut().push('\u{0}');
+//                             return Some(Ok('\u{0}'));
+//                         }
+//                         _ => {
+//                             set_prompt(false);
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
 
-    fn consume(&mut self, nread: usize) {
-        let offset = self.pending_input.position() as usize;
-        self.pending_input.set_position((offset + nread) as u64);
-    }
+//     fn consume(&mut self, nread: usize) {
+//         let offset = self.pending_input.position() as usize;
+//         self.pending_input.set_position((offset + nread) as u64);
+//     }
 
-    fn put_back_char(&mut self, c: char) {
-        let offset = self.pending_input.position() as usize;
-        self.pending_input.set_position((offset - c.len_utf8()) as u64);
-    }
-}
+//     fn put_back_char(&mut self, c: char) {
+//         let offset = self.pending_input.position() as usize;
+//         self.pending_input.set_position((offset - c.len_utf8()) as u64);
+//     }
+// }
 
 #[inline]
 pub(crate) fn write_term_to_heap(

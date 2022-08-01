@@ -444,18 +444,18 @@ enum SystemClauseType {
     SkipMaxList,
     #[strum_discriminants(strum(props(Arity = "1", Name = "$sleep")))]
     Sleep,
-    #[strum_discriminants(strum(props(Arity = "7", Name = "$socket_client_open")))]
-    SocketClientOpen,
-    #[strum_discriminants(strum(props(Arity = "3", Name = "$socket_server_open")))]
-    SocketServerOpen,
-    #[strum_discriminants(strum(props(Arity = "7", Name = "$socket_server_accept")))]
-    SocketServerAccept,
-    #[strum_discriminants(strum(props(Arity = "1", Name = "$socket_server_close")))]
-    SocketServerClose,
-    #[strum_discriminants(strum(props(Arity = "4", Name = "$tls_accept_client")))]
-    TLSAcceptClient,
-    #[strum_discriminants(strum(props(Arity = "3", Name = "$tls_client_connect")))]
-    TLSClientConnect,
+    // #[strum_discriminants(strum(props(Arity = "7", Name = "$socket_client_open")))]
+    // SocketClientOpen,
+    // #[strum_discriminants(strum(props(Arity = "3", Name = "$socket_server_open")))]
+    // SocketServerOpen,
+    // #[strum_discriminants(strum(props(Arity = "7", Name = "$socket_server_accept")))]
+    // SocketServerAccept,
+    // #[strum_discriminants(strum(props(Arity = "1", Name = "$socket_server_close")))]
+    // SocketServerClose,
+    // #[strum_discriminants(strum(props(Arity = "4", Name = "$tls_accept_client")))]
+    // TLSAcceptClient,
+    // #[strum_discriminants(strum(props(Arity = "3", Name = "$tls_client_connect")))]
+    // TLSClientConnect,
     #[strum_discriminants(strum(props(Arity = "0", Name = "$succeed")))]
     Succeed,
     #[strum_discriminants(strum(props(Arity = "2", Name = "$term_attributed_variables")))]
@@ -1699,12 +1699,12 @@ fn generate_instruction_preface() -> TokenStream {
                     &Instruction::CallSetSeed(_) |
                     &Instruction::CallSkipMaxList(_) |
                     &Instruction::CallSleep(_) |
-                    &Instruction::CallSocketClientOpen(_) |
-                    &Instruction::CallSocketServerOpen(_) |
-                    &Instruction::CallSocketServerAccept(_) |
-                    &Instruction::CallSocketServerClose(_) |
-                    &Instruction::CallTLSAcceptClient(_) |
-                    &Instruction::CallTLSClientConnect(_) |
+                    // &Instruction::CallSocketClientOpen(_) |
+                    // &Instruction::CallSocketServerOpen(_) |
+                    // &Instruction::CallSocketServerAccept(_) |
+                    // &Instruction::CallSocketServerClose(_) |
+                    // &Instruction::CallTLSAcceptClient(_) |
+                    // &Instruction::CallTLSClientConnect(_) |
                     &Instruction::CallSucceed(_) |
                     &Instruction::CallTermAttributedVariables(_) |
                     &Instruction::CallTermVariables(_) |
@@ -1717,18 +1717,18 @@ fn generate_instruction_preface() -> TokenStream {
                     &Instruction::CallWriteTerm(_) |
                     &Instruction::CallWriteTermToChars(_) |
                     &Instruction::CallScryerPrologVersion(_) |
-                    &Instruction::CallCryptoRandomByte(_) |
-                    &Instruction::CallCryptoDataHash(_) |
-                    &Instruction::CallCryptoDataHKDF(_) |
-                    &Instruction::CallCryptoPasswordHash(_) |
-                    &Instruction::CallCryptoDataEncrypt(_) |
-                    &Instruction::CallCryptoDataDecrypt(_) |
-                    &Instruction::CallCryptoCurveScalarMult(_) |
-                    &Instruction::CallEd25519Sign(_) |
-                    &Instruction::CallEd25519Verify(_) |
-                    &Instruction::CallEd25519NewKeyPair(_) |
-                    &Instruction::CallEd25519KeyPairPublicKey(_) |
-                    &Instruction::CallCurve25519ScalarMult(_) |
+                    // &Instruction::CallCryptoRandomByte(_) |
+                    // &Instruction::CallCryptoDataHash(_) |
+                    // &Instruction::CallCryptoDataHKDF(_) |
+                    // &Instruction::CallCryptoPasswordHash(_) |
+                    // &Instruction::CallCryptoDataEncrypt(_) |
+                    // &Instruction::CallCryptoDataDecrypt(_) |
+                    // &Instruction::CallCryptoCurveScalarMult(_) |
+                    // &Instruction::CallEd25519Sign(_) |
+                    // &Instruction::CallEd25519Verify(_) |
+                    // &Instruction::CallEd25519NewKeyPair(_) |
+                    // &Instruction::CallEd25519KeyPairPublicKey(_) |
+                    // &Instruction::CallCurve25519ScalarMult(_) |
                     &Instruction::CallFirstNonOctet(_) |
                     &Instruction::CallLoadHTML(_) |
                     &Instruction::CallLoadXML(_) |
@@ -1908,12 +1908,12 @@ fn generate_instruction_preface() -> TokenStream {
                     &Instruction::ExecuteSetSeed(_) |
                     &Instruction::ExecuteSkipMaxList(_) |
                     &Instruction::ExecuteSleep(_) |
-                    &Instruction::ExecuteSocketClientOpen(_) |
-                    &Instruction::ExecuteSocketServerOpen(_) |
-                    &Instruction::ExecuteSocketServerAccept(_) |
-                    &Instruction::ExecuteSocketServerClose(_) |
-                    &Instruction::ExecuteTLSAcceptClient(_) |
-                    &Instruction::ExecuteTLSClientConnect(_) |
+                    // &Instruction::ExecuteSocketClientOpen(_) |
+                    // &Instruction::ExecuteSocketServerOpen(_) |
+                    // &Instruction::ExecuteSocketServerAccept(_) |
+                    // &Instruction::ExecuteSocketServerClose(_) |
+                    // &Instruction::ExecuteTLSAcceptClient(_) |
+                    // &Instruction::ExecuteTLSClientConnect(_) |
                     &Instruction::ExecuteSucceed(_) |
                     &Instruction::ExecuteTermAttributedVariables(_) |
                     &Instruction::ExecuteTermVariables(_) |
@@ -1926,18 +1926,18 @@ fn generate_instruction_preface() -> TokenStream {
                     &Instruction::ExecuteWriteTerm(_) |
                     &Instruction::ExecuteWriteTermToChars(_) |
                     &Instruction::ExecuteScryerPrologVersion(_) |
-                    &Instruction::ExecuteCryptoRandomByte(_) |
-                    &Instruction::ExecuteCryptoDataHash(_) |
-                    &Instruction::ExecuteCryptoDataHKDF(_) |
-                    &Instruction::ExecuteCryptoPasswordHash(_) |
-                    &Instruction::ExecuteCryptoDataEncrypt(_) |
-                    &Instruction::ExecuteCryptoDataDecrypt(_) |
-                    &Instruction::ExecuteCryptoCurveScalarMult(_) |
-                    &Instruction::ExecuteEd25519Sign(_) |
-                    &Instruction::ExecuteEd25519Verify(_) |
-                    &Instruction::ExecuteEd25519NewKeyPair(_) |
-                    &Instruction::ExecuteEd25519KeyPairPublicKey(_) |
-                    &Instruction::ExecuteCurve25519ScalarMult(_) |
+                    // &Instruction::ExecuteCryptoRandomByte(_) |
+                    // &Instruction::ExecuteCryptoDataHash(_) |
+                    // &Instruction::ExecuteCryptoDataHKDF(_) |
+                    // &Instruction::ExecuteCryptoPasswordHash(_) |
+                    // &Instruction::ExecuteCryptoDataEncrypt(_) |
+                    // &Instruction::ExecuteCryptoDataDecrypt(_) |
+                    // &Instruction::ExecuteCryptoCurveScalarMult(_) |
+                    // &Instruction::ExecuteEd25519Sign(_) |
+                    // &Instruction::ExecuteEd25519Verify(_) |
+                    // &Instruction::ExecuteEd25519NewKeyPair(_) |
+                    // &Instruction::ExecuteEd25519KeyPairPublicKey(_) |
+                    // &Instruction::ExecuteCurve25519ScalarMult(_) |
                     &Instruction::ExecuteFirstNonOctet(_) |
                     &Instruction::ExecuteLoadHTML(_) |
                     &Instruction::ExecuteLoadXML(_) |

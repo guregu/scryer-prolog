@@ -19,7 +19,7 @@ pub struct Atom {
     pub index: usize,
 }
 
-const_assert!(mem::size_of::<Atom>() == 8);
+// const_assert!(mem::size_of::<Atom>() == 8);
 
 include!(concat!(env!("OUT_DIR"), "/static_atoms.rs"));
 

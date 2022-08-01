@@ -144,7 +144,7 @@ impl IndexPtr {
 #[derive(Debug, Clone, Copy, Ord, Hash, PartialOrd, Eq, PartialEq)]
 pub struct CodeIndex(TypedArenaPtr<IndexPtr>);
 
-const_assert!(std::mem::align_of::<CodeIndex>() == 8);
+// const_assert!(std::mem::align_of::<CodeIndex>() == 8);
 
 impl Deref for CodeIndex {
     type Target = TypedArenaPtr<IndexPtr>;

@@ -25,7 +25,7 @@ use std::net::{TcpStream, Shutdown};
 use std::ops::{Deref, DerefMut};
 use std::ptr;
 
-use native_tls::TlsStream;
+// use native_tls::TlsStream;
 
 #[derive(Debug, BitfieldSpecifier, Clone, Copy, PartialEq, Eq, Hash)]
 #[bits = 1]
@@ -224,30 +224,30 @@ impl Write for NamedTcpStream {
     }
 }
 
-#[derive(Debug)]
-pub struct NamedTlsStream {
-    address: Atom,
-    tls_stream: TlsStream<Stream>,
-}
+// #[derive(Debug)]
+// pub struct NamedTlsStream {
+//     address: Atom,
+//     tls_stream: TlsStream<Stream>,
+// }
 
-impl Read for NamedTlsStream {
-    #[inline]
-    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
-        self.tls_stream.read(buf)
-    }
-}
+// impl Read for NamedTlsStream {
+//     #[inline]
+//     fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+//         self.tls_stream.read(buf)
+//     }
+// }
 
-impl Write for NamedTlsStream {
-    #[inline]
-    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        self.tls_stream.write(buf)
-    }
+// impl Write for NamedTlsStream {
+//     #[inline]
+//     fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+//         self.tls_stream.write(buf)
+//     }
 
-    #[inline]
-    fn flush(&mut self) -> std::io::Result<()> {
-        self.tls_stream.flush()
-    }
-}
+//     #[inline]
+//     fn flush(&mut self) -> std::io::Result<()> {
+//         self.tls_stream.flush()
+//     }
+// }
 
 pub struct NamedHttpClientStream {
     url: Atom,
@@ -403,10 +403,10 @@ macro_rules! arena_allocated_impl_for_stream {
 arena_allocated_impl_for_stream!(CharReader<ByteStream>, ByteStream);
 arena_allocated_impl_for_stream!(CharReader<InputFileStream>, InputFileStream);
 arena_allocated_impl_for_stream!(OutputFileStream, OutputFileStream);
-arena_allocated_impl_for_stream!(CharReader<NamedTcpStream>, NamedTcpStream);
-arena_allocated_impl_for_stream!(CharReader<NamedTlsStream>, NamedTlsStream);
+// arena_allocated_impl_for_stream!(CharReader<NamedTcpStream>, NamedTcpStream);
+// arena_allocated_impl_for_stream!(CharReader<NamedTlsStream>, NamedTlsStream);
 arena_allocated_impl_for_stream!(CharReader<NamedHttpClientStream>, NamedHttpClientStream);
-arena_allocated_impl_for_stream!(ReadlineStream, ReadlineStream);
+// arena_allocated_impl_for_stream!(ReadlineStream, ReadlineStream);
 arena_allocated_impl_for_stream!(StaticStringStream, StaticStringStream);
 arena_allocated_impl_for_stream!(StandardOutputStream, StandardOutputStream);
 arena_allocated_impl_for_stream!(StandardErrorStream, StandardErrorStream);
@@ -417,27 +417,27 @@ pub enum Stream {
     InputFile(TypedArenaPtr<StreamLayout<CharReader<InputFileStream>>>),
     OutputFile(TypedArenaPtr<StreamLayout<OutputFileStream>>),
     StaticString(TypedArenaPtr<StreamLayout<StaticStringStream>>),
-    NamedTcp(TypedArenaPtr<StreamLayout<CharReader<NamedTcpStream>>>),
-    NamedTls(TypedArenaPtr<StreamLayout<CharReader<NamedTlsStream>>>),
+    // NamedTcp(TypedArenaPtr<StreamLayout<CharReader<NamedTcpStream>>>),
+    // NamedTls(TypedArenaPtr<StreamLayout<CharReader<NamedTlsStream>>>),
     NamedHttpClient(TypedArenaPtr<StreamLayout<CharReader<NamedHttpClientStream>>>),
     Null(StreamOptions),
-    Readline(TypedArenaPtr<StreamLayout<ReadlineStream>>),
+    // Readline(TypedArenaPtr<StreamLayout<ReadlineStream>>),
     StandardOutput(TypedArenaPtr<StreamLayout<StandardOutputStream>>),
     StandardError(TypedArenaPtr<StreamLayout<StandardErrorStream>>),
 }
 
-impl From<TypedArenaPtr<StreamLayout<ReadlineStream>>> for Stream {
-    #[inline]
-    fn from(stream: TypedArenaPtr<StreamLayout<ReadlineStream>>) -> Stream {
-        Stream::Readline(stream)
-    }
-}
+// impl From<TypedArenaPtr<StreamLayout<ReadlineStream>>> for Stream {
+//     #[inline]
+//     fn from(stream: TypedArenaPtr<StreamLayout<ReadlineStream>>) -> Stream {
+//         Stream::Readline(stream)
+//     }
+// }
 
 impl Stream {
-    #[inline]
-    pub fn from_readline_stream(stream: ReadlineStream, arena: &mut Arena) -> Stream {
-        Stream::Readline(arena_alloc!(StreamLayout::new(stream), arena))
-    }
+    // #[inline]
+    // pub fn from_readline_stream(stream: ReadlineStream, arena: &mut Arena) -> Stream {
+    //     Stream::Readline(arena_alloc!(StreamLayout::new(stream), arena))
+    // }
 
     #[inline]
     pub fn from_owned_string(string: String, arena: &mut Arena) -> Stream {
@@ -457,13 +457,13 @@ impl Stream {
         ))
     }
 
-    #[inline]
-    pub fn stdin(arena: &mut Arena, add_history: bool) -> Stream {
-        Stream::Readline(arena_alloc!(
-            StreamLayout::new(ReadlineStream::new("", add_history)),
-            arena
-        ))
-    }
+    // #[inline]
+    // pub fn stdin(arena: &mut Arena, add_history: bool) -> Stream {
+    //     Stream::Readline(arena_alloc!(
+    //         StreamLayout::new(ReadlineStream::new("", add_history)),
+    //         arena
+    //     ))
+    // }
 
     pub fn from_tag(tag: ArenaHeaderTag, ptr: *const u8) -> Self {
         match tag {
@@ -472,10 +472,10 @@ impl Stream {
             ArenaHeaderTag::OutputFileStream => {
                 Stream::OutputFile(TypedArenaPtr::new(ptr as *mut _))
             }
-            ArenaHeaderTag::NamedTcpStream => Stream::NamedTcp(TypedArenaPtr::new(ptr as *mut _)),
-            ArenaHeaderTag::NamedTlsStream => Stream::NamedTls(TypedArenaPtr::new(ptr as *mut _)),
+            // ArenaHeaderTag::NamedTcpStream => Stream::NamedTcp(TypedArenaPtr::new(ptr as *mut _)),
+            // ArenaHeaderTag::NamedTlsStream => Stream::NamedTls(TypedArenaPtr::new(ptr as *mut _)),
             ArenaHeaderTag::NamedHttpClientStream => Stream::NamedHttpClient(TypedArenaPtr::new(ptr as *mut _)),
-            ArenaHeaderTag::ReadlineStream => Stream::Readline(TypedArenaPtr::new(ptr as *mut _)),
+            // ArenaHeaderTag::ReadlineStream => Stream::Readline(TypedArenaPtr::new(ptr as *mut _)),
             ArenaHeaderTag::StaticStringStream => {
                 Stream::StaticString(TypedArenaPtr::new(ptr as *mut _))
             }
@@ -512,11 +512,12 @@ impl Stream {
 
     #[inline]
     pub fn is_stdin(&self) -> bool {
-        if let Stream::Readline(_) = self {
-            true
-        } else {
-            false
-        }
+        false
+        // if let Stream::Readline(_) = self {
+        //     true
+        // } else {
+        //     false
+        // }
     }
 
     pub fn as_ptr(&self) -> *const ArenaHeader {
@@ -525,11 +526,11 @@ impl Stream {
             Stream::InputFile(ptr) => ptr.header_ptr(),
             Stream::OutputFile(ptr) => ptr.header_ptr(),
             Stream::StaticString(ptr) => ptr.header_ptr(),
-            Stream::NamedTcp(ptr) => ptr.header_ptr(),
-            Stream::NamedTls(ptr) => ptr.header_ptr(),
+            // Stream::NamedTcp(ptr) => ptr.header_ptr(),
+            // Stream::NamedTls(ptr) => ptr.header_ptr(),
             Stream::NamedHttpClient(ptr) => ptr.header_ptr(),
             Stream::Null(_) => ptr::null(),
-            Stream::Readline(ptr) => ptr.header_ptr(),
+            // Stream::Readline(ptr) => ptr.header_ptr(),
             Stream::StandardOutput(ptr) => ptr.header_ptr(),
             Stream::StandardError(ptr) => ptr.header_ptr(),
         }
@@ -541,11 +542,11 @@ impl Stream {
             Stream::InputFile(ref ptr) => &ptr.options,
             Stream::OutputFile(ref ptr) => &ptr.options,
             Stream::StaticString(ref ptr) => &ptr.options,
-            Stream::NamedTcp(ref ptr) => &ptr.options,
-            Stream::NamedTls(ref ptr) => &ptr.options,
+            // Stream::NamedTcp(ref ptr) => &ptr.options,
+            // Stream::NamedTls(ref ptr) => &ptr.options,
             Stream::NamedHttpClient(ref ptr) => &ptr.options,
             Stream::Null(ref options) => options,
-            Stream::Readline(ref ptr) => &ptr.options,
+            // Stream::Readline(ref ptr) => &ptr.options,
             Stream::StandardOutput(ref ptr) => &ptr.options,
             Stream::StandardError(ref ptr) => &ptr.options,
         }
@@ -557,11 +558,11 @@ impl Stream {
             Stream::InputFile(ref mut ptr) => &mut ptr.options,
             Stream::OutputFile(ref mut ptr) => &mut ptr.options,
             Stream::StaticString(ref mut ptr) => &mut ptr.options,
-            Stream::NamedTcp(ref mut ptr) => &mut ptr.options,
-            Stream::NamedTls(ref mut ptr) => &mut ptr.options,
+            // Stream::NamedTcp(ref mut ptr) => &mut ptr.options,
+            // Stream::NamedTls(ref mut ptr) => &mut ptr.options,
             Stream::NamedHttpClient(ref mut ptr) => &mut ptr.options,
             Stream::Null(ref mut options) => options,
-            Stream::Readline(ref mut ptr) => &mut ptr.options,
+            // Stream::Readline(ref mut ptr) => &mut ptr.options,
             Stream::StandardOutput(ref mut ptr) => &mut ptr.options,
             Stream::StandardError(ref mut ptr) => &mut ptr.options,
         }
@@ -574,11 +575,11 @@ impl Stream {
             Stream::InputFile(ptr) => ptr.lines_read += incr_num_lines_read,
             Stream::OutputFile(ptr) => ptr.lines_read += incr_num_lines_read,
             Stream::StaticString(ptr) => ptr.lines_read += incr_num_lines_read,
-            Stream::NamedTcp(ptr) => ptr.lines_read += incr_num_lines_read,
-            Stream::NamedTls(ptr) => ptr.lines_read += incr_num_lines_read,
+            // Stream::NamedTcp(ptr) => ptr.lines_read += incr_num_lines_read,
+            // Stream::NamedTls(ptr) => ptr.lines_read += incr_num_lines_read,
             Stream::NamedHttpClient(ptr) => ptr.lines_read += incr_num_lines_read,
             Stream::Null(_) => {}
-            Stream::Readline(ptr) => ptr.lines_read += incr_num_lines_read,
+            // Stream::Readline(ptr) => ptr.lines_read += incr_num_lines_read,
             Stream::StandardOutput(ptr) => ptr.lines_read += incr_num_lines_read,
             Stream::StandardError(ptr) => ptr.lines_read += incr_num_lines_read,
         }
@@ -591,11 +592,11 @@ impl Stream {
             Stream::InputFile(ptr) => ptr.lines_read = value,
             Stream::OutputFile(ptr) => ptr.lines_read = value,
             Stream::StaticString(ptr) => ptr.lines_read = value,
-            Stream::NamedTcp(ptr) => ptr.lines_read = value,
-            Stream::NamedTls(ptr) => ptr.lines_read = value,
+            // Stream::NamedTcp(ptr) => ptr.lines_read = value,
+            // Stream::NamedTls(ptr) => ptr.lines_read = value,
             Stream::NamedHttpClient(ptr) => ptr.lines_read = value,
             Stream::Null(_) => {}
-            Stream::Readline(ptr) => ptr.lines_read = value,
+            // Stream::Readline(ptr) => ptr.lines_read = value,
             Stream::StandardOutput(ptr) => ptr.lines_read = value,
             Stream::StandardError(ptr) => ptr.lines_read = value,
         }
@@ -608,11 +609,11 @@ impl Stream {
             Stream::InputFile(ptr) => ptr.lines_read,
             Stream::OutputFile(ptr) => ptr.lines_read,
             Stream::StaticString(ptr) => ptr.lines_read,
-            Stream::NamedTcp(ptr) => ptr.lines_read,
-            Stream::NamedTls(ptr) => ptr.lines_read,
+            // Stream::NamedTcp(ptr) => ptr.lines_read,
+            // Stream::NamedTls(ptr) => ptr.lines_read,
             Stream::NamedHttpClient(ptr) => ptr.lines_read,
             Stream::Null(_) => 0,
-            Stream::Readline(ptr) => ptr.lines_read,
+            // Stream::Readline(ptr) => ptr.lines_read,
             Stream::StandardOutput(ptr) => ptr.lines_read,
             Stream::StandardError(ptr) => ptr.lines_read,
         }
@@ -623,10 +624,10 @@ impl CharRead for Stream {
     fn peek_char(&mut self) -> Option<std::io::Result<char>> {
         match self {
             Stream::InputFile(file) => (*file).peek_char(),
-            Stream::NamedTcp(tcp_stream) => (*tcp_stream).peek_char(),
-            Stream::NamedTls(tls_stream) => (*tls_stream).peek_char(),
+            // Stream::NamedTcp(tcp_stream) => (*tcp_stream).peek_char(),
+            // Stream::NamedTls(tls_stream) => (*tls_stream).peek_char(),
             Stream::NamedHttpClient(http_stream) => (*http_stream).peek_char(),
-            Stream::Readline(rl_stream) => (*rl_stream).peek_char(),
+            // Stream::Readline(rl_stream) => (*rl_stream).peek_char(),
             Stream::StaticString(src) => (*src).peek_char(),
             Stream::Byte(cursor) => (*cursor).peek_char(),
             Stream::OutputFile(_) |
@@ -642,10 +643,10 @@ impl CharRead for Stream {
     fn read_char(&mut self) -> Option<std::io::Result<char>> {
         match self {
             Stream::InputFile(file) => (*file).read_char(),
-            Stream::NamedTcp(tcp_stream) => (*tcp_stream).read_char(),
-            Stream::NamedTls(tls_stream) => (*tls_stream).read_char(),
+            // Stream::NamedTcp(tcp_stream) => (*tcp_stream).read_char(),
+            // Stream::NamedTls(tls_stream) => (*tls_stream).read_char(),
             Stream::NamedHttpClient(http_stream) => (*http_stream).read_char(),
-            Stream::Readline(rl_stream) => (*rl_stream).read_char(),
+            // Stream::Readline(rl_stream) => (*rl_stream).read_char(),
             Stream::StaticString(src) => (*src).read_char(),
             Stream::Byte(cursor) => (*cursor).read_char(),
             Stream::OutputFile(_) |
@@ -661,10 +662,10 @@ impl CharRead for Stream {
     fn put_back_char(&mut self, c: char) {
         match self {
             Stream::InputFile(file) => file.put_back_char(c),
-            Stream::NamedTcp(tcp_stream) => tcp_stream.put_back_char(c),
-            Stream::NamedTls(tls_stream) => tls_stream.put_back_char(c),
+            // Stream::NamedTcp(tcp_stream) => tcp_stream.put_back_char(c),
+            // Stream::NamedTls(tls_stream) => tls_stream.put_back_char(c),
             Stream::NamedHttpClient(http_stream) => http_stream.put_back_char(c),
-            Stream::Readline(rl_stream) => rl_stream.put_back_char(c),
+            // Stream::Readline(rl_stream) => rl_stream.put_back_char(c),
             Stream::StaticString(src) => src.put_back_char(c),
             Stream::Byte(cursor) => cursor.put_back_char(c),
             Stream::OutputFile(_) |
@@ -678,9 +679,9 @@ impl CharRead for Stream {
         match self {
             Stream::InputFile(ref mut file) => file.consume(nread),
             Stream::NamedTcp(ref mut tcp_stream) => tcp_stream.consume(nread),
-            Stream::NamedTls(ref mut tls_stream) => tls_stream.consume(nread),
-            Stream::NamedHttpClient(ref mut http_stream) => http_stream.consume(nread),
-            Stream::Readline(ref mut rl_stream) => rl_stream.consume(nread),
+            // // Stream::NamedTls(ref mut tls_stream) => tls_stream.consume(nread),
+            // Stream::NamedHttpClient(ref mut http_stream) => http_stream.consume(nread),
+            // Stream::Readline(ref mut rl_stream) => rl_stream.consume(nread),
             Stream::StaticString(ref mut src) => src.consume(nread),
             Stream::Byte(ref mut cursor) => cursor.consume(nread),
             Stream::OutputFile(_) |
@@ -720,9 +721,9 @@ impl Write for Stream {
         match self {
             Stream::OutputFile(ref mut file) => file.write(buf),
             Stream::NamedTcp(ref mut tcp_stream) => tcp_stream.get_mut().write(buf),
-            Stream::NamedTls(ref mut tls_stream) => tls_stream.get_mut().write(buf),
-            Stream::Byte(ref mut cursor) => cursor.get_mut().write(buf),
-            Stream::StandardOutput(stream) => stream.write(buf),
+            // Stream::NamedTls(ref mut tls_stream) => tls_stream.get_mut().write(buf),
+            // Stream::Byte(ref mut cursor) => cursor.get_mut().write(buf),
+            // Stream::StandardOutput(stream) => stream.write(buf),
             Stream::StandardError(stream) => stream.write(buf),
             Stream::NamedHttpClient(_) |
             Stream::StaticString(_) |
@@ -739,9 +740,9 @@ impl Write for Stream {
         match self {
             Stream::OutputFile(ref mut file) => file.stream.flush(),
             Stream::NamedTcp(ref mut tcp_stream) => tcp_stream.stream.get_mut().flush(),
-            Stream::NamedTls(ref mut tls_stream) => tls_stream.stream.get_mut().flush(),
-            Stream::Byte(ref mut cursor) => cursor.stream.get_mut().flush(),
-            Stream::StandardError(stream) => stream.stream.flush(),
+            // // Stream::NamedTls(ref mut tls_stream) => tls_stream.stream.get_mut().flush(),
+            // Stream::Byte(ref mut cursor) => cursor.stream.get_mut().flush(),
+            // Stream::StandardError(stream) => stream.stream.flush(),
             Stream::StandardOutput(stream) => stream.stream.flush(),
             Stream::NamedHttpClient(_) |
             Stream::StaticString(_) |
@@ -999,20 +1000,20 @@ impl Stream {
         ))
     }
 
-    #[inline]
-    pub(crate) fn from_tls_stream(
-        address: Atom,
-        tls_stream: TlsStream<Stream>,
-        arena: &mut Arena,
-    ) -> Self {
-        Stream::NamedTls(arena_alloc!(
-            StreamLayout::new(CharReader::new(NamedTlsStream {
-                address,
-                tls_stream
-            })),
-            arena
-        ))
-    }
+    // #[inline]
+    // pub(crate) fn from_tls_stream(
+    //     address: Atom,
+    //     tls_stream: TlsStream<Stream>,
+    //     arena: &mut Arena,
+    // ) -> Self {
+    //     Stream::NamedTls(arena_alloc!(
+    //         StreamLayout::new(CharReader::new(NamedTlsStream {
+    //             address,
+    //             tls_stream
+    //         })),
+    //         arena
+    //     ))
+    // }
 
     #[inline]
     pub(crate) fn from_http_stream(
@@ -1062,9 +1063,9 @@ impl Stream {
             Stream::NamedTcp(ref mut tcp_stream) => {
                 tcp_stream.inner_mut().tcp_stream.shutdown(Shutdown::Both)
             },
-            Stream::NamedTls(ref mut tls_stream) => {
-                tls_stream.inner_mut().tls_stream.shutdown()
-            }
+            // Stream::NamedTls(ref mut tls_stream) => {
+            //     tls_stream.inner_mut().tls_stream.shutdown()
+            // }
             Stream::NamedHttpClient(ref mut http_stream) => {
                 unsafe {
                     http_stream.set_tag(ArenaHeaderTag::Dropped);

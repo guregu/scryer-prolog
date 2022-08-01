@@ -4281,54 +4281,54 @@ impl Machine {
                     self.sleep();
                     self.machine_st.p = self.machine_st.cp;
                 }
-                &Instruction::CallSocketClientOpen(_) => {
-                    try_or_throw!(self.machine_st, self.socket_client_open());
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteSocketClientOpen(_) => {
-                    try_or_throw!(self.machine_st, self.socket_client_open());
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallSocketServerOpen(_) => {
-                    try_or_throw!(self.machine_st, self.socket_server_open());
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteSocketServerOpen(_) => {
-                    try_or_throw!(self.machine_st, self.socket_server_open());
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallSocketServerAccept(_) => {
-                    try_or_throw!(self.machine_st, self.socket_server_accept());
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteSocketServerAccept(_) => {
-                    try_or_throw!(self.machine_st, self.socket_server_accept());
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallSocketServerClose(_) => {
-                    try_or_throw!(self.machine_st, self.socket_server_close());
-                    self.machine_st.p += 1;
-                }
-                &Instruction::ExecuteSocketServerClose(_) => {
-                    try_or_throw!(self.machine_st, self.socket_server_close());
-                    self.machine_st.p = self.machine_st.cp;
-                }
-                &Instruction::CallTLSAcceptClient(_) => {
-                    try_or_throw!(self.machine_st, self.tls_accept_client());
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteTLSAcceptClient(_) => {
-                    try_or_throw!(self.machine_st, self.tls_accept_client());
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallTLSClientConnect(_) => {
-                    try_or_throw!(self.machine_st, self.tls_client_connect());
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteTLSClientConnect(_) => {
-                    try_or_throw!(self.machine_st, self.tls_client_connect());
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
+                // &Instruction::CallSocketClientOpen(_) => {
+                //     try_or_throw!(self.machine_st, self.socket_client_open());
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteSocketClientOpen(_) => {
+                //     try_or_throw!(self.machine_st, self.socket_client_open());
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallSocketServerOpen(_) => {
+                //     try_or_throw!(self.machine_st, self.socket_server_open());
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteSocketServerOpen(_) => {
+                //     try_or_throw!(self.machine_st, self.socket_server_open());
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallSocketServerAccept(_) => {
+                //     try_or_throw!(self.machine_st, self.socket_server_accept());
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteSocketServerAccept(_) => {
+                //     try_or_throw!(self.machine_st, self.socket_server_accept());
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallSocketServerClose(_) => {
+                //     try_or_throw!(self.machine_st, self.socket_server_close());
+                //     self.machine_st.p += 1;
+                // }
+                // &Instruction::ExecuteSocketServerClose(_) => {
+                //     try_or_throw!(self.machine_st, self.socket_server_close());
+                //     self.machine_st.p = self.machine_st.cp;
+                // }
+                // &Instruction::CallTLSAcceptClient(_) => {
+                //     try_or_throw!(self.machine_st, self.tls_accept_client());
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteTLSAcceptClient(_) => {
+                //     try_or_throw!(self.machine_st, self.tls_accept_client());
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallTLSClientConnect(_) => {
+                //     try_or_throw!(self.machine_st, self.tls_client_connect());
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteTLSClientConnect(_) => {
+                //     try_or_throw!(self.machine_st, self.tls_client_connect());
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
                 &Instruction::CallSucceed(_) => {
                     self.machine_st.p += 1;
                 }
@@ -4421,102 +4421,102 @@ impl Machine {
                     self.scryer_prolog_version();
                     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
                 }
-                &Instruction::CallCryptoRandomByte(_) => {
-                    self.crypto_random_byte();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteCryptoRandomByte(_) => {
-                    self.crypto_random_byte();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallCryptoDataHash(_) => {
-                    self.crypto_data_hash();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteCryptoDataHash(_) => {
-                    self.crypto_data_hash();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallCryptoDataHKDF(_) => {
-                    self.crypto_data_hkdf();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteCryptoDataHKDF(_) => {
-                    self.crypto_data_hkdf();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallCryptoPasswordHash(_) => {
-                    self.crypto_password_hash();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteCryptoPasswordHash(_) => {
-                    self.crypto_password_hash();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallCryptoDataEncrypt(_) => {
-                    self.crypto_data_encrypt();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteCryptoDataEncrypt(_) => {
-                    self.crypto_data_encrypt();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallCryptoDataDecrypt(_) => {
-                    self.crypto_data_decrypt();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteCryptoDataDecrypt(_) => {
-                    self.crypto_data_decrypt();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallCryptoCurveScalarMult(_) => {
-                    self.crypto_curve_scalar_mult();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteCryptoCurveScalarMult(_) => {
-                    self.crypto_curve_scalar_mult();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallEd25519Sign(_) => {
-                    self.ed25519_sign();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteEd25519Sign(_) => {
-                    self.ed25519_sign();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallEd25519Verify(_) => {
-                    self.ed25519_verify();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteEd25519Verify(_) => {
-                    self.ed25519_verify();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallEd25519NewKeyPair(_) => {
-                    self.ed25519_new_key_pair();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteEd25519NewKeyPair(_) => {
-                    self.ed25519_new_key_pair();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallEd25519KeyPairPublicKey(_) => {
-                    self.ed25519_key_pair_public_key();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteEd25519KeyPairPublicKey(_) => {
-                    self.ed25519_key_pair_public_key();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
-                &Instruction::CallCurve25519ScalarMult(_) => {
-                    self.curve25519_scalar_mult();
-                    step_or_fail!(self, self.machine_st.p += 1);
-                }
-                &Instruction::ExecuteCurve25519ScalarMult(_) => {
-                    self.curve25519_scalar_mult();
-                    step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
-                }
+                // &Instruction::CallCryptoRandomByte(_) => {
+                //     self.crypto_random_byte();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteCryptoRandomByte(_) => {
+                //     self.crypto_random_byte();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallCryptoDataHash(_) => {
+                //     self.crypto_data_hash();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteCryptoDataHash(_) => {
+                //     self.crypto_data_hash();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallCryptoDataHKDF(_) => {
+                //     self.crypto_data_hkdf();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteCryptoDataHKDF(_) => {
+                //     self.crypto_data_hkdf();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallCryptoPasswordHash(_) => {
+                //     self.crypto_password_hash();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteCryptoPasswordHash(_) => {
+                //     self.crypto_password_hash();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallCryptoDataEncrypt(_) => {
+                //     self.crypto_data_encrypt();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteCryptoDataEncrypt(_) => {
+                //     self.crypto_data_encrypt();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallCryptoDataDecrypt(_) => {
+                //     self.crypto_data_decrypt();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteCryptoDataDecrypt(_) => {
+                //     self.crypto_data_decrypt();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallCryptoCurveScalarMult(_) => {
+                //     self.crypto_curve_scalar_mult();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteCryptoCurveScalarMult(_) => {
+                //     self.crypto_curve_scalar_mult();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallEd25519Sign(_) => {
+                //     self.ed25519_sign();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteEd25519Sign(_) => {
+                //     self.ed25519_sign();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallEd25519Verify(_) => {
+                //     self.ed25519_verify();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteEd25519Verify(_) => {
+                //     self.ed25519_verify();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallEd25519NewKeyPair(_) => {
+                //     self.ed25519_new_key_pair();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteEd25519NewKeyPair(_) => {
+                //     self.ed25519_new_key_pair();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallEd25519KeyPairPublicKey(_) => {
+                //     self.ed25519_key_pair_public_key();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteEd25519KeyPairPublicKey(_) => {
+                //     self.ed25519_key_pair_public_key();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
+                // &Instruction::CallCurve25519ScalarMult(_) => {
+                //     self.curve25519_scalar_mult();
+                //     step_or_fail!(self, self.machine_st.p += 1);
+                // }
+                // &Instruction::ExecuteCurve25519ScalarMult(_) => {
+                //     self.curve25519_scalar_mult();
+                //     step_or_fail!(self, self.machine_st.p = self.machine_st.cp);
+                // }
                 &Instruction::CallFirstNonOctet(_) => {
                     self.first_non_octet();
                     step_or_fail!(self, self.machine_st.p += 1);
